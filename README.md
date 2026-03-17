@@ -64,8 +64,8 @@ This allows testing the system with realistic sample data such as users, jobs, a
 Use the following credentials to access the admin panel:
 
 ```
-Email: admin@mail.com
-Password: 123456
+Email: admin@admin
+Password: admin
 ```
 
 ---
