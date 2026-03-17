@@ -1,0 +1,56 @@
+﻿@{
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+@model List<dynamic>
+
+<h2>Users (Admin)</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Kullanıcı Adı</th>
+            <th>Email</th>
+            <th>Telefon</th>
+            <th>Durum</th>
+            <th>İşlem</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var u in Model)
+        {
+            <tr>
+                <td>@u.user_id</td>
+                <td>@u.username</td>
+                <td>@u.email</td>
+                <td>@u.phone_no</td>
+
+                <td>
+                    @if (u.is_banned == 1)
+                    {
+                        <span class="badge bg-danger">Banned</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-success">Active</span>
+                    }
+                </td>
+
+                <td>
+                    <form method="post" action="/Admin/ToggleBan">
+                        <input type="hidden" name="id" value="@u.user_id" />
+                        @if (u.is_banned == 1)
+                        {
+                            <button class="btn btn-warning btn-sm">Unban</button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-danger btn-sm">Ban</button>
+                        }
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

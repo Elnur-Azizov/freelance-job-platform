@@ -1,0 +1,67 @@
+﻿@model List<Freelance_System.Models.ApplicationRowVM>
+
+@{
+    ViewData["Title"] = "İlana Gelen Başvurular";
+}
+
+<h2>İlana Gelen Başvurular</h2>
+
+@if (Model == null || Model.Count == 0)
+{
+    <p>Bu ilana henüz başvuru yok.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Kullanıcı Adı</th>
+                <th>E-posta</th>
+                <th>Teklif</th>
+                <th>Süre</th>
+                <th>Mesaj</th>
+                <th>Tarih</th>
+                <th>Detay</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var a in Model)
+            {
+                <tr>
+                    <td>
+                        <a asp-controller="Profile"
+                           asp-action="Index"
+                           asp-route-id="@a.FreelancerId">
+                            @a.Username
+                        </a>
+                    </td>
+                    <td>@a.Email</td>
+                    <td>@a.OfferedPrice</td>
+                    <td>@a.OfferedDays gün</td>
+
+                    <!-- Mesaj tek satır + ... -->
+                    <td style="max-width: 420px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        @a.Message
+                    </td>
+
+                    <td>@a.CreatedAt.ToString("dd.MM.yyyy HH:mm")</td>
+
+                    <td>
+                        <a class="btn btn-outline-secondary btn-sm"
+                           href="/Applications/Details?applicationId=@a.ProposalId">
+                            Detaylar
+                        </a>
+                    </td>
+
+                    <td>
+                        <a class="btn btn-primary"
+                           href="/Contracts/Create?jobId=@a.JobId&freelancerId=@a.FreelancerId&proposalId=@a.ProposalId">
+                            Seç
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

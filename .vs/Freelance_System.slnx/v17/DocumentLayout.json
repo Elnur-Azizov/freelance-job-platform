@@ -1,0 +1,170 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Lenovo\\Pictures\\Desktop\\Freelance_System\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F3F79F2E-74D6-AE2B-58E4-4918C8AB2AEE}|Freelance_System\\Freelance_System.csproj|c:\\users\\lenovo\\pictures\\desktop\\freelance_system\\freelance_system\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{F3F79F2E-74D6-AE2B-58E4-4918C8AB2AEE}|Freelance_System\\Freelance_System.csproj|solutionrelative:freelance_system\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F3F79F2E-74D6-AE2B-58E4-4918C8AB2AEE}|Freelance_System\\Freelance_System.csproj|c:\\users\\lenovo\\pictures\\desktop\\freelance_system\\freelance_system\\controllers\\accountcontrollers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F3F79F2E-74D6-AE2B-58E4-4918C8AB2AEE}|Freelance_System\\Freelance_System.csproj|solutionrelative:freelance_system\\controllers\\accountcontrollers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F3F79F2E-74D6-AE2B-58E4-4918C8AB2AEE}|Freelance_System\\Freelance_System.csproj|c:\\users\\lenovo\\pictures\\desktop\\freelance_system\\freelance_system\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F3F79F2E-74D6-AE2B-58E4-4918C8AB2AEE}|Freelance_System\\Freelance_System.csproj|solutionrelative:freelance_system\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F3F79F2E-74D6-AE2B-58E4-4918C8AB2AEE}|Freelance_System\\Freelance_System.csproj|c:\\users\\lenovo\\pictures\\desktop\\freelance_system\\freelance_system\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{F3F79F2E-74D6-AE2B-58E4-4918C8AB2AEE}|Freelance_System\\Freelance_System.csproj|solutionrelative:freelance_system\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F3F79F2E-74D6-AE2B-58E4-4918C8AB2AEE}|Freelance_System\\Freelance_System.csproj|c:\\users\\lenovo\\pictures\\desktop\\freelance_system\\freelance_system\\controllers\\contractscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F3F79F2E-74D6-AE2B-58E4-4918C8AB2AEE}|Freelance_System\\Freelance_System.csproj|solutionrelative:freelance_system\\controllers\\contractscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F3F79F2E-74D6-AE2B-58E4-4918C8AB2AEE}|Freelance_System\\Freelance_System.csproj|c:\\users\\lenovo\\pictures\\desktop\\freelance_system\\freelance_system\\views\\contracts\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F3F79F2E-74D6-AE2B-58E4-4918C8AB2AEE}|Freelance_System\\Freelance_System.csproj|solutionrelative:freelance_system\\views\\contracts\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F3F79F2E-74D6-AE2B-58E4-4918C8AB2AEE}|Freelance_System\\Freelance_System.csproj|c:\\users\\lenovo\\pictures\\desktop\\freelance_system\\freelance_system\\views\\profile\\contracts.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F3F79F2E-74D6-AE2B-58E4-4918C8AB2AEE}|Freelance_System\\Freelance_System.csproj|solutionrelative:freelance_system\\views\\profile\\contracts.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F3F79F2E-74D6-AE2B-58E4-4918C8AB2AEE}|Freelance_System\\Freelance_System.csproj|c:\\users\\lenovo\\pictures\\desktop\\freelance_system\\freelance_system\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F3F79F2E-74D6-AE2B-58E4-4918C8AB2AEE}|Freelance_System\\Freelance_System.csproj|solutionrelative:freelance_system\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F3F79F2E-74D6-AE2B-58E4-4918C8AB2AEE}|Freelance_System\\Freelance_System.csproj|c:\\users\\lenovo\\pictures\\desktop\\freelance_system\\freelance_system\\views\\jobs\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F3F79F2E-74D6-AE2B-58E4-4918C8AB2AEE}|Freelance_System\\Freelance_System.csproj|solutionrelative:freelance_system\\views\\jobs\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "site.css",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\Pictures\\Desktop\\Freelance_System\\Freelance_System\\wwwroot\\css\\site.css",
+              "RelativeDocumentMoniker": "Freelance_System\\wwwroot\\css\\site.css",
+              "ToolTip": "C:\\Users\\Lenovo\\Pictures\\Desktop\\Freelance_System\\Freelance_System\\wwwroot\\css\\site.css",
+              "RelativeToolTip": "Freelance_System\\wwwroot\\css\\site.css",
+              "ViewState": "AgIAAC8AAAAAAAAAAAAcwGwAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-03-17T18:56:37.433Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\Pictures\\Desktop\\Freelance_System\\Freelance_System\\Program.cs",
+              "RelativeDocumentMoniker": "Freelance_System\\Program.cs",
+              "ToolTip": "C:\\Users\\Lenovo\\Pictures\\Desktop\\Freelance_System\\Freelance_System\\Program.cs",
+              "RelativeToolTip": "Freelance_System\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-16T15:35:02.4Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\Pictures\\Desktop\\Freelance_System\\Freelance_System\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "Freelance_System\\appsettings.Development.json",
+              "ToolTip": "C:\\Users\\Lenovo\\Pictures\\Desktop\\Freelance_System\\Freelance_System\\appsettings.Development.json",
+              "RelativeToolTip": "Freelance_System\\appsettings.Development.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-03-16T15:34:59.573Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AccountControllers.cs",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\Pictures\\Desktop\\Freelance_System\\Freelance_System\\Controllers\\AccountControllers.cs",
+              "RelativeDocumentMoniker": "Freelance_System\\Controllers\\AccountControllers.cs",
+              "ToolTip": "C:\\Users\\Lenovo\\Pictures\\Desktop\\Freelance_System\\Freelance_System\\Controllers\\AccountControllers.cs",
+              "RelativeToolTip": "Freelance_System\\Controllers\\AccountControllers.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAgwJsAAABTAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-16T15:34:29.48Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Contracts.cshtml",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\Pictures\\Desktop\\Freelance_System\\Freelance_System\\Views\\Profile\\Contracts.cshtml",
+              "RelativeDocumentMoniker": "Freelance_System\\Views\\Profile\\Contracts.cshtml",
+              "ToolTip": "C:\\Users\\Lenovo\\Pictures\\Desktop\\Freelance_System\\Freelance_System\\Views\\Profile\\Contracts.cshtml",
+              "RelativeToolTip": "Freelance_System\\Views\\Profile\\Contracts.cshtml",
+              "ViewState": "AgIAAFEAAAAAAAAAAAAAAHcAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-05T19:36:20.149Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\Pictures\\Desktop\\Freelance_System\\Freelance_System\\Views\\Contracts\\Details.cshtml",
+              "RelativeDocumentMoniker": "Freelance_System\\Views\\Contracts\\Details.cshtml",
+              "ToolTip": "C:\\Users\\Lenovo\\Pictures\\Desktop\\Freelance_System\\Freelance_System\\Views\\Contracts\\Details.cshtml",
+              "RelativeToolTip": "Freelance_System\\Views\\Contracts\\Details.cshtml",
+              "ViewState": "AgIAACIAAAAAAAAAAAAuwOEAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-05T16:14:13.07Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ContractsController.cs",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\Pictures\\Desktop\\Freelance_System\\Freelance_System\\Controllers\\ContractsController.cs",
+              "RelativeDocumentMoniker": "Freelance_System\\Controllers\\ContractsController.cs",
+              "ToolTip": "C:\\Users\\Lenovo\\Pictures\\Desktop\\Freelance_System\\Freelance_System\\Controllers\\ContractsController.cs",
+              "RelativeToolTip": "Freelance_System\\Controllers\\ContractsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAJwAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-05T16:08:17.167Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\Pictures\\Desktop\\Freelance_System\\Freelance_System\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Freelance_System\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\Lenovo\\Pictures\\Desktop\\Freelance_System\\Freelance_System\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Freelance_System\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGcCAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-05T15:35:19.83Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\Pictures\\Desktop\\Freelance_System\\Freelance_System\\Views\\Jobs\\Index.cshtml",
+              "RelativeDocumentMoniker": "Freelance_System\\Views\\Jobs\\Index.cshtml",
+              "ToolTip": "C:\\Users\\Lenovo\\Pictures\\Desktop\\Freelance_System\\Freelance_System\\Views\\Jobs\\Index.cshtml",
+              "RelativeToolTip": "Freelance_System\\Views\\Jobs\\Index.cshtml",
+              "ViewState": "AgIAAFsAAAAAAAAAAAAnwG8AAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-05T14:49:15.491Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

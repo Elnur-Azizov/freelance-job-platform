@@ -1,0 +1,47 @@
+﻿@{
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
+@model List<dynamic>
+
+<h2>Applications (Admin)</h2>
+
+<div class="d-flex gap-2 mb-3">
+    <a class="btn btn-sm btn-outline-secondary" href="/Admin/Applications?status=all">All</a>
+    <a class="btn btn-sm btn-outline-secondary" href="/Admin/Applications?status=pending">Pending</a>
+    <a class="btn btn-sm btn-outline-secondary" href="/Admin/Applications?status=accepted">Accepted</a>
+    <a class="btn btn-sm btn-outline-secondary" href="/Admin/Applications?status=rejected">Rejected</a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>İş</th>
+            <th>Freelancer</th>
+            <th>Client</th>
+            <th>Teklif</th>
+            <th>Süre</th>
+            <th>Durum</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in Model)
+        {
+            <tr>
+                <td>@a.application_id</td>
+                <td>
+                    @a.job_title
+                    <div>
+                        <a class="btn btn-sm btn-outline-primary" href="/Jobs/Details/@a.job_id">İlana Git</a>
+                    </div>
+                </td>
+                <td>@a.freelancer_name<br /><small>@a.freelancer_email</small></td>
+                <td>@a.client_name<br /><small>@a.client_email</small></td>
+                <td>@a.offered_price ₺</td>
+                <td>@a.offered_days gün</td>
+                <td>@a.status</td>
+            </tr>
+        }
+    </tbody>
+</table>

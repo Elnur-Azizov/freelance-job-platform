@@ -1,0 +1,169 @@
+﻿@model List<dynamic>
+
+@{
+    ViewData["Title"] = "İş ilanları";
+
+    var currentSort = (ViewBag.Sort as string) ?? "date_desc";
+    var q = (ViewBag.Q as string) ?? "";
+
+    string sortText = currentSort switch
+    {
+        "title_asc" => "A → Z",
+        "title_desc" => "Z → A",
+        "budget_desc" => "Bütçe (Yüksek → Düşük)",
+        "budget_asc" => "Bütçe (Düşük → Yüksek)",
+        "date_asc" => "En Eskiler",
+        _ => "En Yeniler"
+    };
+}
+
+<div class="container py-4">
+
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-3">
+        <div>
+            <h2 class="mb-1">İlanlar</h2>
+            <div class="text-muted">Açık iş ilanlarını burada görebilirsin.</div>
+        </div>
+
+        <div class="d-flex flex-column flex-sm-row align-items-stretch align-items-sm-center gap-2">
+
+            <!-- ✅ ARAMA (Home'dan kaldırıp buraya aldık) -->
+            <form method="get" class="d-flex gap-2" style="min-width: 320px;">
+                <input type="hidden" name="sort" value="@currentSort" />
+
+                <input name="q"
+                       value="@q"
+                       class="form-control"
+                       placeholder="İlan ara (başlık/açıklama)..." />
+
+                <button class="btn btn-outline-primary">Ara</button>
+
+                @if (!string.IsNullOrWhiteSpace(q))
+                {
+                    <a class="btn btn-outline-secondary" href="/Jobs?sort=@currentSort">Temizle</a>
+                }
+            </form>
+
+            <!-- ✅ SIRALA -->
+            <div class="dropdown">
+                <button class="btn btn-outline-dark dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                    Sırala: @sortText
+                </button>
+
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="/Jobs?sort=title_asc&q=@q">A → Z</a></li>
+                    <li><a class="dropdown-item" href="/Jobs?sort=title_desc&q=@q">Z → A</a></li>
+
+                    <li><hr class="dropdown-divider" /></li>
+
+                    <li><a class="dropdown-item" href="/Jobs?sort=budget_desc&q=@q">Bütçe (Yüksek → Düşük)</a></li>
+                    <li><a class="dropdown-item" href="/Jobs?sort=budget_asc&q=@q">Bütçe (Düşük → Yüksek)</a></li>
+
+                    <li><hr class="dropdown-divider" /></li>
+
+                    <li><a class="dropdown-item" href="/Jobs?sort=date_desc&q=@q">En Yeniler</a></li>
+                    <li><a class="dropdown-item" href="/Jobs?sort=date_asc&q=@q">En Eskiler</a></li>
+                </ul>
+            </div>
+
+            <!-- ✅ İŞ İLANI OLUŞTUR -->
+            @if (Context.Session.GetInt32("user_id") == null)
+            {
+                <button class="btn btn-success"
+                        onclick="openAuthModal('login','/Jobs/Create'); return false;">
+                    + İş İlanı Oluştur
+                </button>
+            }
+            else
+            {
+                <a class="btn btn-success" asp-controller="Jobs" asp-action="Create">
+                    + İş İlanı Oluştur
+                </a>
+            }
+        </div>
+    </div>
+
+    @if (TempData["LoginRequired"] != null)
+    {
+        <div class="alert alert-warning mb-3">@TempData["LoginRequired"]</div>
+        <script>
+            setTimeout(function () { openAuthModal('login'); }, 300);
+        </script>
+    }
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success mb-3">@TempData["Success"]</div>
+    }
+
+    @if (Model == null || Model.Count == 0)
+    {
+        <div class="alert alert-info">Şu an listelenecek ilan yok.</div>
+    }
+    else
+    {
+        <div class="row g-3">
+            @foreach (var job in Model)
+            {
+                <div class="col-12">
+                    <div class="card shadow-sm border-0 job-card">
+                        <div class="card-body p-4">
+
+                            <div class="d-flex flex-column flex-md-row justify-content-between gap-2">
+                                <div>
+                                    <h4 class="card-title mb-1">@job.title</h4>
+                                    <div class="text-muted small">
+                                        @job.description
+                                    </div>
+                                </div>
+
+                                <div class="text-md-end">
+                                    <div class="badge text-bg-dark px-3 py-2">Açık</div>
+                                </div>
+                            </div>
+
+                            <hr class="my-3" />
+
+                            <div class="d-flex gap-4 mt-2 flex-wrap">
+
+                                <div>
+                                    <small class="text-muted">Bütçe</small><br />
+                                    <b>💰 @job.budget ₺</b>
+                                </div>
+
+                                <div>
+                                    <small class="text-muted">Süre</small><br />
+                                    <b>⏱ @job.requested_days gün</b>
+                                </div>
+
+                                @* İstersen tarihle de gösteririz (created_at varsa) *@
+                                @if (job.created_at != null)
+                                {
+                                    <div>
+                                        <small class="text-muted">Tarih</small><br />
+                                        <b>📅 @(((DateTime)job.created_at).ToString("dd.MM.yyyy"))</b>
+                                    </div>
+                                }
+
+                            </div>
+
+                            <div class="d-flex justify-content-end mt-3">
+                                <a class="btn btn-outline-primary"
+                                   asp-controller="Jobs"
+                                   asp-action="Details"
+                                   asp-route-id="@job.job_id">
+                                    Göster →
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+</div>

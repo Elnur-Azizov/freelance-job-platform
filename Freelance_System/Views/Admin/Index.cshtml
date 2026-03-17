@@ -1,0 +1,76 @@
+﻿@{
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+@{
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <h5>Kullanıcı</h5>
+                <h3>@ViewBag.Users</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <h5>Açık İş</h5>
+                <h3>@ViewBag.JobsOpen</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-danger mb-3">
+            <div class="card-body">
+                <h5>Kapalı İş</h5>
+                <h3>@ViewBag.JobsClosed</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-dark mb-3">
+            <div class="card-body">
+                <h5>Aktif Kontrat</h5>
+                <h3>@ViewBag.ContractsActive</h3>
+            </div>
+        </div>
+    </div>
+    <hr />
+
+    <h4>İlanlar Durum Dağılımı</h4>
+
+    <div style="max-width:420px;">
+        <canvas id="jobsStatusChart"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const openJobs = @ViewBag.JobsOpen;
+        const closedJobs = @ViewBag.JobsClosed;
+
+        const ctx = document.getElementById('jobsStatusChart').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Açık', 'Kapalı'],
+                datasets: [{
+                    data: [openJobs, closedJobs]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+    </script>
+</div>

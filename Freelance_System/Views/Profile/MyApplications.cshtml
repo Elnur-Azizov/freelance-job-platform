@@ -1,0 +1,37 @@
+﻿@model List<Freelance_System.Models.MyApplicationVM>
+
+<h1>Başvurularım</h1>
+<partial name="_ProfileTabs" />
+
+@if (Model == null || Model.Count == 0)
+{
+    <p>Henüz başvurun yok.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>İş</th>
+                <th>Teklif</th>
+                <th>Süre</th>
+                <th>Durum</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var a in Model)
+            {
+                <tr>
+                    <td>@a.job_title</td>
+                    <td>@a.offered_price ₺</td>
+                    <td>@a.offered_days gün</td>
+                    <td>@a.status</td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-primary" href="/Jobs/Details/@a.job_id">İlana Git</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

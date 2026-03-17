@@ -1,0 +1,82 @@
+﻿@model Freelance_System.Models.ProfileVM
+
+<h2>Profil Düzenle</h2>
+
+<form asp-controller="Profile" asp-action="Edit" method="post" class="mt-3" style="max-width:700px;">
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" asp-for="UserId" />
+
+    <div class="mb-3">
+        <label class="form-label">Telefon</label>
+        <input class="form-control" asp-for="PhoneNo" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Bio</label>
+        <textarea class="form-control" asp-for="Bio" rows="4"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Skills</label>
+        <input class="form-control" asp-for="Skills" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Konum</label>
+        <input class="form-control" asp-for="Location" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Website</label>
+        <input class="form-control" asp-for="Website" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Github</label>
+        <input class="form-control" asp-for="Github" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">LinkedIn</label>
+        <input class="form-control" asp-for="Linkedin" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Avatar URL</label>
+        <input class="form-control" asp-for="AvatarUrl" />
+    </div>
+
+    <hr />
+    <h5>Freelancer</h5>
+
+    <div class="mb-3">
+        <label class="form-label">Title</label>
+        <input class="form-control" asp-for="Title" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Portfolio URL</label>
+        <input class="form-control" asp-for="PortfolioUrl" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Saatlik Ücret</label>
+        <input class="form-control" asp-for="HourlyRate" />
+    </div>
+
+    <hr />
+    <h5>Client</h5>
+
+    <div class="mb-3">
+        <label class="form-label">Company Name</label>
+        <input class="form-control" asp-for="CompanyName" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Company Website</label>
+        <input class="form-control" asp-for="CompanyWebsite" />
+    </div>
+
+    <button type="submit" class="btn btn-success">Kaydet</button>
+</form>

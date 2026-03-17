@@ -1,0 +1,25 @@
+﻿@{
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+}
+
+<div class="profile-tabs mb-3">
+    <a class="profile-tab @(currentAction == "Index" ? "active" : "")"
+       href="/Profile/Index">
+        Profil
+    </a>
+
+    <a class="profile-tab @(currentAction == "MyApplications" ? "active" : "")"
+       href="/Profile/MyApplications">
+        Başvurularım
+    </a>
+
+    <a class="profile-tab @(currentAction == "MyJobs" ? "active" : "")"
+       href="/Profile/MyJobs">
+        İş İlanlarım
+    </a>
+
+    <a class="profile-tab @(currentAction == "Contracts" ? "active" : "")"
+       href="/Profile/Contracts">
+        Sözleşmeler
+    </a>
+</div>

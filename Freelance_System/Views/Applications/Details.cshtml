@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Başvuru Detayları";
+}
+
+<h2>Başvuru Detayları</h2>
+
+<div class="card p-3" style="max-width: 900px;">
+    <p><b>İlan:</b> @ViewBag.JobTitle</p>
+    <p><b>Kullanıcı:</b> @ViewBag.Username (@ViewBag.Email)</p>
+    <p><b>Teklif:</b> @ViewBag.OfferedPrice</p>
+    <p><b>Süre:</b> @ViewBag.OfferedDays gün</p>
+    <p><b>Tarih:</b> @(((DateTime)ViewBag.CreatedAt).ToString("dd.MM.yyyy HH:mm"))</p>
+
+    <hr />
+    <p><b>Mesaj:</b></p>
+    <div style="white-space: pre-wrap;">@ViewBag.Message</div>
+
+    <hr />
+
+    <a class="btn btn-secondary"
+       href="/Applications/Index?jobId=@ViewBag.JobId">
+        ← Başvurulara Dön
+    </a>
+
+    <a class="btn btn-primary"
+       href="/Contracts/Create?jobId=@ViewBag.JobId&freelancerId=@ViewBag.FreelancerId&proposalId=@ViewBag.ProposalId">
+        Seç
+    </a>
+</div>

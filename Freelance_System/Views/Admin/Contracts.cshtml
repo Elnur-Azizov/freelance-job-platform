@@ -1,0 +1,38 @@
+﻿@{
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
+@model List<dynamic>
+
+<h2>Contracts (Admin)</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Contract ID</th>
+            <th>İş</th>
+            <th>Client</th>
+            <th>Freelancer</th>
+            <th>Anlaşılan Ücret</th>
+            <th>Durum</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td>@c.contract_id</td>
+                <td>
+                    @c.job_title
+                    <div>
+                        <a class="btn btn-sm btn-outline-primary" href="/Jobs/Details/@c.job_id">İlana Git</a>
+                    </div>
+                </td>
+                <td>@c.client_name <br /><small>@c.client_email</small></td>
+                <td>@c.freelancer_name <br /><small>@c.freelancer_email</small></td>
+                <td>@c.agreed_price ₺</td>
+                <td>@c.status</td>
+            </tr>
+        }
+    </tbody>
+</table>

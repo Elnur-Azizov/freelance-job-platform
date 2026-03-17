@@ -1,0 +1,161 @@
+﻿@model Freelance_System.Models.ContractsPageVM
+
+@functions {
+    string MaskEmail(string email)
+    {
+        if (string.IsNullOrWhiteSpace(email) || !email.Contains("@"))
+            return email;
+
+        var parts = email.Split('@');
+        var name = parts[0];
+        var domain = parts[1];
+
+        if (name.Length <= 2)
+            return "***@" + domain;
+
+        return name.Substring(0, 2)
+               + new string('*', Math.Min(6, name.Length - 2))
+               + "@" + domain;
+    }
+}
+
+<h1>Sözleşmeler</h1>
+<partial name="_ProfileTabs" />
+
+<hr />
+
+<h4>Benim İlanlarım Üzerinden</h4>
+
+@if (Model.AsClient.Count == 0)
+{
+    <p>Client olarak sözleşmen yok.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Freelancer</th>
+                <th>Freelancer Email</th>
+                <th>İş</th>
+                <th>Anlaşılan Ücret</th>
+                <th>Durum</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var c in Model.AsClient)
+            {
+                <tr>
+                    <td>@c.freelancer_username</td>
+                    <td>
+                        <a href="mailto:@c.freelancer_email">
+                            @MaskEmail(c.freelancer_email)
+                        </a>
+                    </td>
+                    <td>@c.job_title</td>
+                    <td>@c.agreed_price ₺</td>
+                    <td>
+                        @if (c.status == "active")
+                        {
+                            <span class="badge bg-success">Aktif</span>
+                        }
+                        else if (c.status == "completed")
+                        {
+                            <span class="badge bg-primary">Tamamlandı</span>
+                        }
+                        else if (c.status == "cancelled")
+                        {
+                            <span class="badge bg-danger">İptal Edildi</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">@c.status</span>
+                        }
+                    </td>
+                    <td class="actions-col">
+                        <div class="actions-wrap">
+                            <a class="btn btn-sm btn-outline-primary" href="/Jobs/Details/@c.job_id">
+                                İlana Git
+                            </a>
+
+                            <a class="btn btn-sm btn-success"
+                               asp-controller="Contracts"
+                               asp-action="Details"
+                               asp-route-id="@c.contract_id">
+                                Teslimatlar
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<hr />
+
+<h4>Aldığım İşler</h4>
+
+@if (Model.AsFreelancer.Count == 0)
+{
+    <p>Freelancer olarak aldığın iş yok.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Client</th>
+                <th>Client Email</th>
+                <th>İş</th>
+                <th>Anlaşılan Ücret</th>
+                <th>Durum</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var c in Model.AsFreelancer)
+            {
+                <tr>
+                    <td>@c.client_username</td>
+                    <td>
+                        <a href="mailto:@c.client_email">
+                            @MaskEmail(c.client_email)
+                        </a>
+                    </td>
+                    <td>@c.job_title</td>
+                    <td>@c.agreed_price ₺</td>
+                    <td>
+                        @if (c.status == "active")
+                        {
+                            <span class="badge bg-success">Aktif</span>
+                        }
+                        else if (c.status == "completed")
+                        {
+                            <span class="badge bg-primary">Tamamlandı</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">@c.status</span>
+                        }
+                    </td>
+                    <td class="actions-col">
+                        <div class="actions-wrap">
+                            <a class="btn btn-sm btn-outline-primary" href="/Jobs/Details/@c.job_id">
+                                İlana Git
+                            </a>
+
+                            <a class="btn btn-sm btn-success"
+                               asp-controller="Contracts"
+                               asp-action="Details"
+                               asp-route-id="@c.contract_id">
+                                Teslimatlar
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

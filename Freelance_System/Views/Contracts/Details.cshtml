@@ -1,0 +1,226 @@
+﻿@model dynamic
+@using Microsoft.AspNetCore.Http
+@using System.Globalization
+
+<h2>Contract Detayı</h2>
+
+<div class="card p-4 mb-3">
+    <div><b>Contract ID:</b> @Model.contract_id</div>
+    <div><b>Job ID:</b> @Model.job_id</div>
+    <div><b>Fiyat:</b> @Model.agreed_price ₺</div>
+    <div>
+        <b>Sözleşme Durumu:</b>
+        @if (Model.status == "active")
+        {
+            <span class="badge bg-success">Aktif</span>
+        }
+        else
+        {
+            <span class="badge bg-secondary">@Model.status</span>
+        }
+    </div>
+
+    @{
+        string s = (string)(Model.delivery_status ?? "none");
+        string text = s switch
+        {
+            "none" => "Henüz teslim yok",
+            "submitted" => "Teslim gönderildi",
+            "revision" => "Revize istendi",
+            "approved" => "Teslim onaylandı",
+            _ => s
+        };
+    }
+    <div><b>Teslimat Durumu:</b> @text</div>
+</div>
+
+@{
+    var userId = Context.Session.GetInt32("user_id");
+    bool isFreelancerOfThisContract = (userId != null && (int)Model.freelancer_id == userId.Value);
+    bool isClientOfThisContract = (userId != null && (int)Model.client_id == userId.Value);
+}
+
+@if (TempData["Msg"] != null)
+{
+    <div class="alert alert-success">@TempData["Msg"]</div>
+}
+@if (TempData["Err"] != null)
+{
+    <div class="alert alert-danger">@TempData["Err"]</div>
+}
+
+<hr />
+
+<h4>Teslimatlar</h4>
+
+@if (Model.deliveries == null || Model.deliveries.Count == 0)
+{
+    <div class="alert alert-info">Henüz teslim gönderilmemiş.</div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-bordered align-middle">
+            <thead>
+                <tr>
+                    <th style="width:70px;">ID</th>
+                    <th>Gönderen</th>
+                    <th>Not</th>
+                    <th style="width:140px;">Durum</th>
+                    <th style="width:170px;">Tarih</th>
+                    <th style="width:140px;">Dosya</th>
+                    <th style="width:220px;">İşlem</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var d in Model.deliveries)
+                {
+                    string ds = (string)(d.status ?? "");
+                    string dsText = ds switch
+                    {
+                        "submitted" => "Gönderildi",
+                        "revision" => "Revize istendi",
+                        "approved" => "Onaylandı",
+                        _ => ds
+                    };
+
+                    // Controller'da deliveries item'ına file_url eklenmiş olmalı
+                    string fileUrl = (string)(d.file_url ?? "");
+
+                    <tr>
+                        <td>@d.delivery_id</td>
+                        <td>@d.submitted_by_name</td>
+                        <td>@d.note</td>
+                        <td>
+                            @if (ds == "submitted")
+                            {
+                                <span class="badge bg-primary">Gönderildi</span>
+                            }
+                            else if (ds == "revision")
+                            {
+                                <span class="badge bg-warning text-dark">Revize İstendi</span>
+                            }
+                            else if (ds == "approved")
+                            {
+                                <span class="badge bg-success">Onaylandı</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">@dsText</span>
+                            }
+                        </td>
+                        <td>@d.created_at.ToString("dd MMMM yyyy - HH:mm", new CultureInfo("tr-TR"))</td>
+
+                        <td>
+                            @if (!string.IsNullOrWhiteSpace(fileUrl))
+                            {
+                                <a href="@fileUrl" target="_blank" class="btn btn-sm btn-outline-secondary">
+                                    📎 Dosyayı Aç
+                                </a>
+                            }
+                            else
+                            {
+                                <span class="text-muted">-</span>
+                            }
+                        </td>
+
+                        <td>
+                            @* Client işlemleri: delivery_id ile seçili teslimi revize/onay *@
+                            @if (isClientOfThisContract && ds == "submitted")
+                            {
+                                <form method="post" asp-controller="Contracts" asp-action="SetDeliveryStatus" class="d-inline">
+                                    <input type="hidden" name="contract_id" value="@Model.contract_id" />
+                                    <input type="hidden" name="delivery_id" value="@d.delivery_id" />
+                                    <input type="hidden" name="status" value="revision" />
+                                    <button class="btn btn-warning btn-sm" type="submit">Revize İste</button>
+                                </form>
+
+                                <form method="post" asp-controller="Contracts" asp-action="SetDeliveryStatus" class="d-inline ms-1">
+                                    <input type="hidden" name="contract_id" value="@Model.contract_id" />
+                                    <input type="hidden" name="delivery_id" value="@d.delivery_id" />
+                                    <input type="hidden" name="status" value="approved" />
+                                    <button class="btn btn-success btn-sm" type="submit">Onayla</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <span class="text-muted">-</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+<hr />
+
+@* Freelancer teslim gönderme formu *@
+@{
+    string currentDeliveryStatus = (string)(Model.delivery_status ?? "none");
+    bool canSubmitDelivery =
+        isFreelancerOfThisContract &&
+        (currentDeliveryStatus == "none" || currentDeliveryStatus == "revision");
+}
+
+@if (canSubmitDelivery)
+{
+    <h4>Teslim Gönder</h4>
+
+    <form method="post"
+          asp-controller="Contracts"
+          asp-action="SubmitDelivery"
+          enctype="multipart/form-data">
+
+        <input type="hidden" name="contract_id" value="@Model.contract_id" />
+
+        <div class="mb-2">
+            <label class="form-label">Teslim Notu</label>
+            <textarea class="form-control" name="note" rows="4" placeholder="Teslim notunu yaz..."></textarea>
+        </div>
+
+        <div class="mb-2">
+            <label class="form-label">📎 Dosya </label>
+            <input class="form-control" type="file" name="file" id="fileInput" />
+            <div id="fileNamePreview" class="mt-2 text-muted"></div>
+
+            <small class="text-muted">
+                Desteklenen: pdf, zip, rar, png, jpg, doc, docx
+            </small>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Teslim Gönder</button>
+    </form>
+}
+else if (isFreelancerOfThisContract && currentDeliveryStatus == "submitted")
+{
+    <div class="alert alert-warning">
+        Zaten bekleyen bir teslim var. Client incelemesini bekleyin.
+    </div>
+}
+else if (isFreelancerOfThisContract && currentDeliveryStatus == "approved")
+{
+    <div class="alert alert-success">
+        Bu teslim onaylanmış. Yeni teslim gönderemezsiniz.
+    </div>
+}
+<script>
+    document.getElementById("fileInput").addEventListener("change", function () {
+        const preview = document.getElementById("fileNamePreview");
+        preview.innerHTML = "";
+
+        if (this.files.length > 0) {
+            let html = "<div class='mt-2'><b>Seçilen dosyalar:</b></div><ul class='mt-1'>";
+
+            for (let i = 0; i < this.files.length; i++) {
+                const file = this.files[i];
+                const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
+                html += `<li>📎 ${file.name} (${sizeMB} MB)</li>`;
+            }
+
+            html += "</ul>";
+            preview.innerHTML = html;
+        }
+    });
+</script>

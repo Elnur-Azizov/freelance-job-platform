@@ -1,0 +1,606 @@
+﻿@using Microsoft.AspNetCore.Http
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Freelance_System</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Freelance_System.styles.css" asp-append-version="true" />
+
+    <style>
+        .fs-badge {
+            background: #111 !important;
+            color: #fff !important;
+            padding: 6px 10px;
+            border-radius: 10px;
+            font-weight: 900;
+            letter-spacing: .2px;
+            display: inline-block;
+        }
+    </style>
+
+    <style>
+        .navbar .dropdown-toggle::after {
+            margin-left: .4rem;
+        }
+    </style>
+    <style>
+        .navbar .nav-pill {
+            padding: 8px 12px !important;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            transition: .15s ease;
+            margin-right: 6px;
+        }
+
+            .navbar .nav-pill:hover {
+                background: #f1f3f5;
+                border-color: #e2e6ea;
+            }
+
+            .navbar .nav-pill.active {
+                background: #111;
+                color: white !important;
+            }
+    </style>
+    <style>
+        #pageContent {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+            /* main alanı büyüsün ki footer alta insin */
+            #pageContent .container {
+                flex: 1;
+            }
+    </style>
+</head>
+<body>
+    @{
+        var isLoggedIn = Context.Session.GetInt32("user_id") != null;
+        var username = Context.Session.GetString("username") ?? "";
+        var role = Context.Session.GetString("role") ?? "";
+    }
+    <div id="pageContent">
+        <header>
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                <div class="container-fluid">
+                    <a class="navbar-brand brand-anim" asp-controller="Home" asp-action="Index" id="brand">
+                        <span class="fs-badge" id="brandText">FS</span>
+                    </a>
+                    <span class="brand-long" aria-hidden="true">FreelanceSystem</span>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <a class="nav-link nav-pill @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")"
+                               asp-controller="Home" asp-action="Index">
+                                Ana Sayfa
+                            </a>
+
+                            <a class="nav-link nav-pill @(ViewContext.RouteData.Values["controller"]?.ToString() == "Jobs" ? "active" : "")"
+                               asp-controller="Jobs" asp-action="Index">
+                                İş ilanları
+                            </a>
+
+                            <a class="nav-link nav-pill @(ViewContext.RouteData.Values["action"]?.ToString() == "Privacy" ? "active" : "")"
+                               asp-controller="Home" asp-action="Privacy">
+                                Gizlilik
+                            </a>
+
+                            @if (role == "admin")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Contracts" asp-action="Admin">Contracts (Admin)</a>
+                                </li>
+                            }
+                        </ul>
+
+                        <!-- SAĞ ÜST -->
+                        <ul class="navbar-nav ms-auto">
+                            @if (isLoggedIn)
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle text-dark"
+                                       href="#"
+                                       role="button"
+                                       data-bs-toggle="dropdown"
+                                       aria-expanded="false">
+                                        @username
+                                    </a>
+
+                                    <ul class="dropdown-menu dropdown-menu-end profile-menu">
+                                        <li>
+                                            <a class="dropdown-item" href="/Profile/Index">Profil</a>
+                                        </li>
+
+                                        <li><hr class="dropdown-divider" /></li>
+
+                                        <li>
+                                            <a class="dropdown-item" href="/Profile/MyApplications">Başvurularım</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="/Profile/MyJobs">İş İlanlarım</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="/Profile/Contracts">Sözleşmeler</a>
+                                        </li>
+
+                                        <li><hr class="dropdown-divider" /></li>
+
+                                        <li>
+                                            <a class="dropdown-item text-danger" href="/Account/Logout">Çıkış</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark"
+                                       href="#"
+                                       onclick="openAuthModal('login'); return false;">
+                                        Giriş/Kayıt
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2026 - Freelance İş İlanı – Teklif – Teslimat Takip Sistemi - <a asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>
+    </div>
+
+    @{
+        var showModal = (TempData["ShowAuthModal"] as string) == "1";
+        var authTab = (TempData["AuthTab"] as string) ?? "login";
+        var authError = TempData["AuthError"] as string;
+        var authMsg = TempData["AuthMsg"] as string;
+
+        var returnUrl = Context.Request.Path + Context.Request.QueryString;
+    }
+
+    <style>
+        .auth-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.35);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 20px;
+        }
+
+            .auth-overlay.show {
+                display: flex;
+            }
+
+        .auth-modal {
+            width: 560px;
+            max-width: 100%;
+            background: #fff;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 18px 60px rgba(0,0,0,.25);
+        }
+
+        .auth-switch {
+            display: flex;
+            gap: 12px;
+            padding: 14px;
+            justify-content: center;
+            background: #fff;
+            border-bottom: 1px solid #eee;
+        }
+
+            .auth-switch a {
+                width: 220px;
+                text-align: center;
+                padding: 10px 12px;
+                border: 2px solid #111;
+                border-radius: 10px;
+                font-weight: 800;
+                color: #111;
+                text-decoration: none;
+                background: #fff;
+            }
+
+                .auth-switch a.disabled {
+                    background: #e6e6e6;
+                    color: #666;
+                    border-color: #cfcfcf;
+                    pointer-events: none;
+                    cursor: not-allowed;
+                }
+
+        .auth-header {
+            padding: 14px 16px;
+            color: #fff;
+            font-weight: 900;
+            font-size: 22px;
+            text-align: center;
+        }
+
+        .hdr-login {
+            background: #198754;
+        }
+
+        .hdr-register {
+            background: #0d6efd;
+        }
+
+        .auth-body {
+            padding: 16px;
+        }
+
+        .field {
+            margin-bottom: 12px;
+        }
+
+            .field label {
+                display: block;
+                font-weight: 700;
+                margin-bottom: 6px;
+            }
+
+            .field input {
+                width: 100%;
+                padding: 10px 12px;
+                border: 1px solid #d7d7d7;
+                border-radius: 9px;
+            }
+
+        .btnx {
+            width: 100%;
+            border: none;
+            padding: 12px 14px;
+            border-radius: 10px;
+            font-weight: 900;
+            color: #fff;
+            cursor: pointer;
+            margin-top: 6px;
+        }
+
+        .btn-login {
+            background: #198754;
+        }
+
+        .btn-register {
+            background: #0d6efd;
+        }
+
+        .auth-footer {
+            padding: 12px 16px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            background: #fafafa;
+            font-size: 14px;
+        }
+
+        .link {
+            color: #0d6efd;
+            text-decoration: underline;
+            font-weight: 700;
+        }
+
+        .small-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #666;
+            text-decoration: underline;
+        }
+
+        .error {
+            margin-top: 10px;
+            color: #b00020;
+            font-weight: 800;
+        }
+
+        .success {
+            margin-top: 10px;
+            color: #0b7a2a;
+            font-weight: 800;
+        }
+
+        .blurred {
+            filter: blur(6px);
+            transform: scale(0.995);
+            transition: .15s ease;
+        }
+
+        /* Brand anim */
+        .brand-anim {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            letter-spacing: .3px;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .brand-short {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 10px;
+            background: #111;
+            color: #fff;
+            line-height: 1;
+        }
+
+        .brand-long {
+            display: inline-block;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 0;
+            opacity: 0;
+            border-radius: 10px;
+            padding: 6px 0;
+            transition: width .22s ease, opacity .12s ease, padding .22s ease;
+            font-weight: 800;
+            color: #111;
+        }
+
+        .brand-anim:hover .brand-long {
+            width: 150px;
+            opacity: 1;
+            padding: 6px 10px;
+            animation: revealSteps .22s steps(14, end) forwards;
+        }
+
+        @@keyframes revealSteps {
+            from {
+                clip-path: inset(0 100% 0 0);
+            }
+
+            to {
+                clip-path: inset(0 0 0 0);
+            }
+        }
+
+        .navbar .nav-pill {
+            padding: 8px 12px !important;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            transition: .15s ease;
+            margin-right: 6px;
+        }
+
+            .navbar .nav-pill:hover {
+                background: #f1f3f5;
+                border-color: #e2e6ea;
+            }
+
+            .navbar .nav-pill.active {
+                background: #111;
+                color: #fff !important;
+                border-color: #111;
+            }
+    </style>
+
+    <div id="authOverlay" class="auth-overlay" onclick="closeAuthModal(event)">
+        <div class="auth-modal" onclick="event.stopPropagation()">
+
+            <div class="auth-switch">
+                <a id="tabLogin" href="#" onclick="setAuthTab('login'); return false;">Giriş yap</a>
+                <a id="tabRegister" href="#" onclick="setAuthTab('register'); return false;">Kayıt ol</a>
+            </div>
+
+            <div id="loginBlock">
+                <div class="auth-header hdr-login">Sisteme Giriş Yap</div>
+                <div class="auth-body">
+                    <form method="post" action="/Account/Login">
+                        <input type="hidden" name="returnUrl" value="@returnUrl" />
+
+                        <div class="field">
+                            <label>E-posta Adresi</label>
+                            <input type="email" name="email" required />
+                        </div>
+
+                        <div class="field">
+                            <label>Şifre</label>
+                            <input type="password" name="password" required />
+                        </div>
+
+                        <button class="btnx btn-login" type="submit">Giriş Yap</button>
+                        <a class="small-link" href="/Account/ForgotPassword">Şifremi unuttum</a>
+
+                        @if (!string.IsNullOrWhiteSpace(authError) && authTab == "login")
+                        {
+                            <div class="error">@authError</div>
+                        }
+                        @if (!string.IsNullOrWhiteSpace(authMsg) && authTab == "login")
+                        {
+                            <div class="success">@authMsg</div>
+                        }
+                    </form>
+                </div>
+
+                <div class="auth-footer">
+                    Hesabın yok mu? <a class="link" href="#" onclick="setAuthTab('register'); return false;">Kayıt Ol</a>
+                </div>
+            </div>
+
+            <div id="registerBlock" style="display:none;">
+                <div class="auth-header hdr-register">Sisteme Kayıt Ol</div>
+                <div class="auth-body">
+                    <form method="post" action="/Account/Register">
+                        <input type="hidden" name="returnUrl" value="@returnUrl" />
+
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                            <div class="field">
+                                <label>Ad</label>
+                                <input type="text" name="firstName" placeholder="Örn: Ali" required />
+                            </div>
+                            <div class="field">
+                                <label>Soyad</label>
+                                <input type="text" name="lastName" placeholder="Örn: Yılmaz" required />
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label>E-posta Adresi</label>
+                            <input type="email" name="email" placeholder="ornek@ogrenci.edu.tr" required />
+                        </div>
+
+                        <div class="field">
+                            <label>Şifre</label>
+                            <input type="password" name="password" minlength="6" required />
+                        </div>
+
+                        <button class="btnx btn-register" type="submit">Kayıt Ol</button>
+
+                        @if (!string.IsNullOrWhiteSpace(authError) && authTab == "register")
+                        {
+                            <div class="error">@authError</div>
+                        }
+                        @if (!string.IsNullOrWhiteSpace(authMsg) && authTab == "register")
+                        {
+                            <div class="success">@authMsg</div>
+                        }
+                    </form>
+                </div>
+
+                <div class="auth-footer">
+                    Zaten hesabın var mı? <a class="link" href="#" onclick="setAuthTab('login'); return false;">Giriş Yap</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function setAuthTab(tab) {
+            const login = document.getElementById('loginBlock');
+            const reg = document.getElementById('registerBlock');
+            const tL = document.getElementById('tabLogin');
+            const tR = document.getElementById('tabRegister');
+
+            if (tab === 'login') {
+                login.style.display = '';
+                reg.style.display = 'none';
+                tL.classList.add('disabled');
+                tR.classList.remove('disabled');
+            } else {
+                login.style.display = 'none';
+                reg.style.display = '';
+                tR.classList.add('disabled');
+                tL.classList.remove('disabled');
+            }
+        }
+
+        function openAuthModal(tab, returnUrl) {
+            document.getElementById('authOverlay').classList.add('show');
+            document.getElementById('pageContent')?.classList.add('blurred');
+            setAuthTab(tab || 'login');
+            document.body.style.overflow = 'hidden';
+
+            if (returnUrl) {
+                const input = document.querySelector('#authOverlay input[name="returnUrl"]');
+                if (input) input.value = returnUrl;
+            }
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authOverlay').classList.remove('show');
+            document.getElementById('pageContent')?.classList.remove('blurred');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                const ov = document.getElementById('authOverlay');
+                if (ov.classList.contains('show')) closeAuthModal();
+            }
+        });
+
+        const shouldOpen = "@(showModal ? "1" : "0")";
+        const tabFromServer = "@authTab";
+        if (shouldOpen === "1") {
+            openAuthModal(tabFromServer);
+        }
+    </script>
+
+    <script>
+        (function(){
+          const brand = document.getElementById("brand");
+          const el = document.getElementById("brandText");
+          if(!brand || !el) return;
+
+          const prefix = "Freelance";
+          const suffix = "System";
+
+          const FORWARD_MS = 420;
+          const BACK_MS = 260;
+          const BOOST = 1.12;
+
+          let raf = 0;
+
+          const clamp = (n,a,b)=>Math.max(a,Math.min(b,n));
+          const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
+          const easeInCubic  = t => t * t * t;
+
+          function textAt(progress){
+            if (progress <= 0) return "FS";
+
+            const boosted = clamp(progress * BOOST, 0, 1);
+
+            let n = Math.ceil(boosted * prefix.length);
+            n = clamp(n, 2, prefix.length);
+
+            return prefix.slice(0, n) + suffix;
+          }
+
+          function animate(toHover){
+            cancelAnimationFrame(raf);
+
+            const start = performance.now();
+            const dur = toHover ? FORWARD_MS : BACK_MS;
+
+            function tick(now){
+              let t = (now - start) / dur;
+              t = clamp(t, 0, 1);
+
+              const eased = toHover ? easeOutCubic(t) : (1 - easeInCubic(t));
+              el.textContent = textAt(eased);
+
+              if (t < 1) raf = requestAnimationFrame(tick);
+              else if (!toHover) el.textContent = "FS";
+              else el.textContent = prefix + suffix;
+            }
+
+            raf = requestAnimationFrame(tick);
+          }
+
+          brand.addEventListener("mouseenter", () => animate(true));
+          brand.addEventListener("mouseleave", () => animate(false));
+        })();
+    </script>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

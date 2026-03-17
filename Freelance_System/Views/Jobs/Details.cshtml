@@ -1,0 +1,119 @@
+﻿@model Freelance_System.Models.Job
+
+@{
+    ViewData["Title"] = "İlan Detayları";
+
+    var uid = Context.Session.GetInt32("user_id");
+    bool isLoggedIn = uid != null;
+    bool isOwner = isLoggedIn && uid.Value == Model.client_id;
+    @if (isOwner)
+    {
+        <div class="mb-3 d-flex gap-2">
+            <a class="btn btn-warning" href="/Jobs/Edit/@Model.job_id">Düzenle</a>
+
+            <form method="post" action="/Jobs/Delete/@Model.job_id" onsubmit="return confirm('Bu ilan silinsin mi?');">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-danger">Sil</button>
+            </form>
+        </div>
+    }
+
+    bool isOpen = string.Equals(Model.status, "open", StringComparison.OrdinalIgnoreCase);
+}
+
+<h2>İlan Detayları</h2>
+
+@if (isOwner)
+{
+    <a class="btn btn-secondary mb-3" href="/Applications/Index?jobId=@Model.job_id">
+        Başvuruları Gör
+    </a>
+}
+
+<div style="border:1px solid gray; padding:20px; margin:20px 0;">
+    <p>
+        <b>İlan Sahibi:</b>
+        <a asp-controller="Profile"
+           asp-action="Index"
+           asp-route-id="@Model.client_id">
+            @Model.client_username
+        </a>
+    </p>
+    <h3>@Model.title</h3>
+
+    <p>
+        <b>Açıklama:</b><br />
+        @Model.description
+    </p>
+
+    <p><b>Bütçe:</b> @Model.budget</p>
+    <p><b>Süre:</b> @Model.requested_days gün</p>
+    <p><b>Durum:</b> @Model.status</p>
+    <p><b>Oluşturulma Tarihi:</b> @Model.created_at</p>
+
+    <a asp-controller="Jobs" asp-action="Index">← İlanlara Geri Dön</a>
+</div>
+
+<hr />
+
+@if (!isLoggedIn)
+{
+    <button class="btn btn-primary" onclick="openAuthModal('login'); return false;">
+        Başvur (Giriş gerekli)
+    </button>
+    <p class="text-muted mt-2">Başvuru yapmak için giriş yapmalısın.</p>
+}
+else if (!isOpen)
+{
+    <div class="alert alert-warning mt-2">
+        Bu ilan kapalı. Başvuru alınmıyor.
+    </div>
+}
+else if (isOwner)
+{
+    <div class="alert alert-info mt-2">
+        Bu ilan sana ait. Kendi ilanına başvuru yapamazsın.
+    </div>
+}
+else
+{
+    <h4>Başvuru Yap</h4>
+
+    <form method="post" action="/Applications/Create">
+        <input type="hidden" name="jobId" value="@Model.job_id" />
+
+        <div class="mb-2">
+            <label class="form-label">Teklif Edilen Fiyat</label>
+            <input class="form-control" type="number" step="0.01" min="1" name="offeredPrice" required />
+        </div>
+
+        <div class="mb-2">
+            <label class="form-label">Teklif Edilen Gün</label>
+            <input class="form-control" type="number" min="1" name="offeredDays" required />
+        </div>
+
+        <div class="mb-2">
+            <label class="form-label">Mesaj</label>
+            <textarea class="form-control" name="message" rows="4" required></textarea>
+        </div>
+
+        <button class="btn btn-success" type="submit">Başvuruyu Gönder</button>
+    </form>
+}
+
+@if (TempData["ApplyMsg"] != null)
+{
+    <div class="alert alert-success mt-3">@TempData["ApplyMsg"]</div>
+}
+@if (TempData["ApplyErr"] != null)
+{
+    <div class="alert alert-danger mt-3">@TempData["ApplyErr"]</div>
+}
+@if (TempData["SelectMsg"] != null)
+{
+    <div class="alert alert-success mt-3">@TempData["SelectMsg"]</div>
+}
+@if (TempData["SelectErr"] != null)
+{
+    <div class="alert alert-danger mt-3">@TempData["SelectErr"]</div>
+}

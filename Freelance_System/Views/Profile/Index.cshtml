@@ -1,0 +1,76 @@
+﻿@model Freelance_System.Models.ProfileVM
+@{
+    ViewData["Title"] = "Profil";
+}
+
+<h1>Profil</h1>
+<partial name="_ProfileTabs" />
+
+@if (TempData["ProfileMsg"] != null)
+{
+    <div class="alert alert-success">@TempData["ProfileMsg"]</div>
+}
+@{
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+}
+
+<div class="card p-3" style="max-width: 950px;">
+    <div class="d-flex align-items-center" style="gap:16px;">
+        <div style="width:80px; height:80px; border-radius:50%; background:#eee; overflow:hidden;">
+            @if (!string.IsNullOrWhiteSpace(Model.AvatarUrl))
+            {
+                <img src="@Model.AvatarUrl" style="width:100%; height:100%; object-fit:cover;" />
+            }
+        </div>
+
+        <div>
+            <h4 class="mb-0">@Model.Username</h4>
+            @if (!string.IsNullOrWhiteSpace(Model.Title))
+            {
+                <div class="text-muted">@Model.Title</div>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.Location))
+            {
+                <div class="text-muted">@Model.Location</div>
+            }
+        </div>
+    </div>
+
+    <hr />
+
+    <p><b>Bio:</b><br />@(Model.Bio ?? "-")</p>
+    <p><b>Skills:</b><br />@(Model.Skills ?? "-")</p>
+
+    <hr />
+
+    <h5>Linkler</h5>
+    <ul>
+        <li>Website: @(string.IsNullOrWhiteSpace(Model.Website) ? "-" : Model.Website)</li>
+        <li>GitHub: @(string.IsNullOrWhiteSpace(Model.Github) ? "-" : Model.Github)</li>
+        <li>LinkedIn: @(string.IsNullOrWhiteSpace(Model.Linkedin) ? "-" : Model.Linkedin)</li>
+        <li>Portföy: @(string.IsNullOrWhiteSpace(Model.PortfolioUrl) ? "-" : Model.PortfolioUrl)</li>
+    </ul>
+
+    <hr />
+
+    <h5>Client Bilgileri (opsiyonel)</h5>
+    <p><b>Company Name:</b> @(Model.CompanyName ?? "-")</p>
+    <p><b>Company Website:</b> @(Model.CompanyWebsite ?? "-")</p>
+
+    <hr />
+
+    <h5>Freelancer Bilgileri (opsiyonel)</h5>
+    <p><b>Hourly Rate:</b> @(Model.HourlyRate == null ? "-" : Model.HourlyRate + "")</p>
+
+    @if (Model.IsOwner)
+    {
+        <hr />
+        <p><b>Email:</b> @Model.Email</p>
+        @if (!string.IsNullOrWhiteSpace(Model.PhoneNo))
+        {
+            <p><b>Telefon:</b> @Model.PhoneNo</p>
+        }
+
+        <a class="btn btn-primary" href="/Profile/Edit">Profili Düzenle</a>
+    }
+</div>

@@ -1,0 +1,149 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html{
+  height:100%;
+}
+
+body {
+  margin: 0;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+footer, .footer {
+    position: static !important;
+}
+body {
+    background: #f6f9fc;
+}
+
+/* Hero kutusu */
+.hero-box {
+    background: linear-gradient(135deg, #f6f9fc, #eef4ff);
+}
+
+/* Ýlan kartý hover */
+.job-card:hover {
+    transform: translateY(-4px);
+    transition: 0.2s;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+/* Badge rengi */
+.badge-lightblue {
+    background: #eef4ff;
+    color: #3b5ccc;
+    border: 1px solid #dbe6ff;
+}
+.actions-col {
+    width: 220px;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.actions-wrap {
+    display: inline-flex;
+    gap: 8px;
+    justify-content: flex-end;
+    width: 100%;
+}
+.profile-tabs {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.profile-tab {
+    text-decoration: none;
+    padding: 10px 16px;
+    border-radius: 999px;
+    border: 1px solid #d6dbe1;
+    background: #fff;
+    color: #222;
+    font-weight: 600;
+    transition: all 0.15s ease;
+}
+
+    .profile-tab:hover {
+        background: #f4f6f8;
+        border-color: #bfc7d1;
+        color: #111;
+    }
+
+    .profile-tab.active {
+        background: #111;
+        color: #fff;
+        border-color: #111;
+    }
+.profile-menu {
+    min-width: 240px;
+    border-radius: 16px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.10);
+    padding: 10px 0;
+}
+
+    .profile-menu .dropdown-item {
+        padding: 12px 18px;
+        font-weight: 500;
+        border-radius: 10px;
+        margin: 2px 8px;
+        width: auto;
+    }
+
+        .profile-menu .dropdown-item:hover {
+            background: #f3f4f6;
+        }
+
+    .profile-menu .dropdown-divider {
+        margin: 8px 0;
+    }
+/* ===== LAYOUT SCROLL FIX ===== */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-attachment: fixed;
+    overflow-x: hidden;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+footer, .footer {
+    position: static !important;
+}

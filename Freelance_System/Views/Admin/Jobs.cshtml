@@ -1,0 +1,58 @@
+﻿@{
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
+@model List<dynamic>
+
+<h2>Jobs (Admin)</h2>
+
+<div class="d-flex gap-2 mb-3">
+    <a class="btn btn-sm btn-outline-secondary" href="/Admin/Jobs?status=all&sort=@ViewBag.Sort">All</a>
+    <a class="btn btn-sm btn-outline-secondary" href="/Admin/Jobs?status=open&sort=@ViewBag.Sort">Open</a>
+    <a class="btn btn-sm btn-outline-secondary" href="/Admin/Jobs?status=closed&sort=@ViewBag.Sort">Closed</a>
+</div>
+
+<div class="d-flex gap-2 mb-3">
+    <a class="btn btn-sm btn-outline-primary" href="/Admin/Jobs?status=@ViewBag.Filter&sort=title_asc">A-Z</a>
+    <a class="btn btn-sm btn-outline-primary" href="/Admin/Jobs?status=@ViewBag.Filter&sort=title_desc">Z-A</a>
+    <a class="btn btn-sm btn-outline-primary" href="/Admin/Jobs?status=@ViewBag.Filter&sort=budget_asc">Budget ↑</a>
+    <a class="btn btn-sm btn-outline-primary" href="/Admin/Jobs?status=@ViewBag.Filter&sort=budget_desc">Budget ↓</a>
+    <a class="btn btn-sm btn-outline-primary" href="/Admin/Jobs?status=@ViewBag.Filter&sort=date_desc">Newest</a>
+    <a class="btn btn-sm btn-outline-primary" href="/Admin/Jobs?status=@ViewBag.Filter&sort=date_asc">Oldest</a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Budget</th>
+            <th>Status</th>
+            <th>Client</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var j in Model)
+        {
+            <tr>
+                <td>@j.job_id</td>
+                <td>@j.title</td>
+                <td>@j.budget ₺</td>
+                <td>@j.status</td>
+                <td>@j.client_name (@j.client_email)</td>
+                <td>
+                    <a class="btn btn-sm btn-outline-primary" href="/Jobs/Details/@j.job_id">View</a>
+
+                    @if (j.status == "open")
+                    {
+                        <form method="post" action="/Admin/CloseJob" style="display:inline">
+                            <input type="hidden" name="id" value="@j.job_id" />
+                            <button class="btn btn-sm btn-outline-danger" type="submit">Close</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

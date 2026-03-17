@@ -1,0 +1,268 @@
+﻿@{
+    ViewData["Title"] = "Giriş / Kayıt";
+    var tab = (string)(ViewBag.Tab ?? "login"); // login | register
+    bool isLogin = tab == "login";
+    bool isRegister = tab == "register";
+}
+
+<style>
+    .page-wrap {
+        min-height: calc(100vh - 120px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        background:white;
+    }
+
+    .shell {
+        width: 560px;
+        max-width: 100%;
+    }
+
+    .switch-row {
+        display: flex;
+        gap: 18px;
+        justify-content: center;
+        margin-bottom: 18px;
+    }
+
+    .switch-btn {
+        width: 260px;
+        padding: 12px 16px;
+        border: 2px solid #111;
+        border-radius: 10px;
+        background: #fff;
+        font-weight: 700;
+        text-align: center;
+        text-decoration: none;
+        color: #111;
+        box-shadow: 0 3px 10px rgba(0,0,0,.05);
+    }
+
+        .switch-btn.disabled {
+            background: #e6e6e6;
+            color: #666;
+            border-color: #cfcfcf;
+            pointer-events: none; /* tıklanamaz */
+            cursor: not-allowed;
+        }
+
+    .card {
+        border-radius: 12px;
+        overflow: hidden;
+        background: #fff;
+        border: 1px solid #e5e5e5;
+        box-shadow: 0 10px 30px rgba(0,0,0,.08);
+    }
+
+    .card-header {
+        padding: 14px 16px;
+        color: #fff;
+        font-weight: 800;
+        font-size: 22px;
+        text-align: center;
+    }
+
+    .hdr-login {
+        background: #198754;
+    }
+    /* yeşil */
+    .hdr-register {
+        background: #0d6efd;
+    }
+    /* mavi */
+
+    .card-body {
+        padding: 16px;
+    }
+
+    .field {
+        margin-bottom: 12px;
+    }
+
+        .field label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #222;
+        }
+
+        .field input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d7d7d7;
+            border-radius: 8px;
+            outline: none;
+        }
+
+            .field input:focus {
+                border-color: #888;
+            }
+
+    .btn {
+        width: 100%;
+        border: none;
+        padding: 12px 14px;
+        border-radius: 10px;
+        font-weight: 800;
+        color: #fff;
+        cursor: pointer;
+        margin-top: 6px;
+    }
+
+    .btn-login {
+        background: #198754;
+    }
+
+    .btn-register {
+        background: #0d6efd;
+    }
+
+    .card-footer {
+        padding: 12px 16px;
+        border-top: 1px solid #eee;
+        text-align: center;
+        background: #fafafa;
+        font-size: 14px;
+    }
+
+    .muted-link {
+        color: #0d6efd;
+        text-decoration: underline;
+    }
+
+    .small-link {
+        display: inline-block;
+        margin-top: 10px;
+        color: #666;
+        text-decoration: underline;
+        font-size: 14px;
+    }
+
+    .error {
+        margin-top: 10px;
+        color: #b00020;
+        font-weight: 600;
+    }
+
+    .success {
+        margin-top: 10px;
+        color: #0b7a2a;
+        font-weight: 600;
+    }
+
+    @@media (max-width: 650px) {
+        .switch-row {
+            flex-direction: column;
+        }
+
+        .switch-btn {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="page-wrap">
+    <div class="shell">
+
+        <!-- ÜST BUTONLAR -->
+        <div class="switch-row">
+            <a class="switch-btn @(isLogin ? "disabled" : "")"
+               href="@Url.Action("Auth", "Account", new { tab = "login" })">
+                Giriş yap
+            </a>
+
+            <a class="switch-btn @(isRegister ? "disabled" : "")"
+               href="@Url.Action("Auth", "Account", new { tab = "register" })">
+                Kayıt ol
+            </a>
+        </div>
+
+        <!-- TEK KART: hangisi seçiliyse o -->
+        @if (isLogin)
+        {
+            <div class="card">
+                <div class="card-header hdr-login">Sisteme Giriş Yap</div>
+
+                <div class="card-body">
+                    <form method="post" action="@Url.Action("Login","Account")">
+                        <div class="field">
+                            <label>E-posta Adresi</label>
+                            <input type="email" name="email" required />
+                        </div>
+
+                        <div class="field">
+                            <label>Şifre</label>
+                            <input type="password" name="password" required />
+                        </div>
+
+                        <button class="btn btn-login" type="submit">Giriş Yap</button>
+
+                        <a class="small-link" href="@Url.Action("ForgotPassword", "Account")">Şifremi unuttum</a>
+
+                        @if (ViewBag.LoginError != null)
+                        {
+                            <div class="error">@ViewBag.LoginError</div>
+                        }
+
+                        @if (TempData["Msg"] != null)
+                        {
+                            <div class="success">@TempData["Msg"]</div>
+                        }
+                    </form>
+                </div>
+
+                <div class="card-footer">
+                    Hesabın yok mu?
+                    <a class="muted-link" href="@Url.Action("Auth", "Account", new { tab = "register" })">Kayıt Ol</a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="card">
+                <div class="card-header hdr-register">Sisteme Kayıt Ol</div>
+
+                <div class="card-body">
+                    <form method="post" action="@Url.Action("Register","Account")">
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                            <div class="field">
+                                <label>Ad</label>
+                                <input type="text" name="firstName" placeholder="Örn: Ali" required />
+                            </div>
+
+                            <div class="field">
+                                <label>Soyad</label>
+                                <input type="text" name="lastName" placeholder="Örn: Yılmaz" required />
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label>E-posta Adresi</label>
+                            <input type="email" name="email" placeholder="ornek@ogrenci.edu.tr" required />
+                        </div>
+
+                        <div class="field">
+                            <label>Şifre</label>
+                            <input type="password" name="password" minlength="6" required />
+                        </div>
+
+                        <button class="btn btn-register" type="submit">Kayıt Ol</button>
+
+                        @if (ViewBag.RegisterError != null)
+                        {
+                            <div class="error">@ViewBag.RegisterError</div>
+                        }
+                    </form>
+                </div>
+
+                <div class="card-footer">
+                    Zaten hesabın var mı?
+                    <a class="muted-link" href="@Url.Action("Auth", "Account", new { tab = "login" })">Giriş Yap</a>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
